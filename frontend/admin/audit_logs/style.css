@@ -1,0 +1,12 @@
+/* frontend/admin/audit_logs/style.css */
+code {
+    background: rgba(56, 189, 248, .1);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: .78rem;
+    color: var(--info);
+}
+
+.toolbar input[type="date"].filter-sel {
+    color-scheme: dark;
+}

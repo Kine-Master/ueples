@@ -1,0 +1,6 @@
+/* frontend/admin/profile/style.css */
+@media (max-width: 700px) {
+    .page-content>div[style*="grid"] {
+        grid-template-columns: 1fr !important;
+    }
+}

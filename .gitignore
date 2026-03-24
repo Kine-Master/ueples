@@ -1,0 +1,14 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore vendor folders (if you use composer later)
+vendor/
+
+#ignore scripts
+inject_theme.php
+inject_theme.py
+
+# Environment files
+.env
+.env.local

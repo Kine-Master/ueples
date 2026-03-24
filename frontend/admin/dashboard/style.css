@@ -1,0 +1,10 @@
+/* frontend/admin/dashboard/style.css — page-specific overrides */
+.stats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+code {
+    background: rgba(56, 189, 248, .1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}

@@ -1,0 +1,95 @@
+/* Inherit Global Navigation Styles */
+@import url('../../assets/css/style.css');
+
+/* GLOBAL LAYOUT */
+body.workspace-body {
+    background-color: #f4f6f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOP NAV (Teacher Theme: Teal) */
+.main-header {
+    height: 60px; 
+    background: #00897b; /* Teal for Teachers */
+    color: white;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0;
+}
+.brand { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+.top-nav { display: flex; height: 100%; }
+.top-nav a {
+    color: #e0f2f1; text-decoration: none; padding: 0 20px;
+    height: 100%; display: flex; align-items: center; font-weight: 500;
+}
+.top-nav a:hover, .top-nav a.active { color: white; border-bottom: 3px solid #b2dfdb; }
+
+/* MAIN CONTENT */
+.main-content-centered {
+    flex: 1; overflow-y: auto; padding: 40px; 
+    display: flex; justify-content: center; align-items: flex-start;
+}
+
+/* PROFILE CONTAINER (Split View) */
+.profile-container {
+    width: 100%; max-width: 1000px;
+    display: flex; gap: 30px;
+}
+
+/* LEFT: PROFILE CARD */
+.profile-card {
+    width: 300px; background: white; border-radius: 8px;
+    padding: 40px 20px; text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.avatar-large {
+    width: 100px; height: 100px; background: #26a69a; /* Teal Accent */
+    color: white; border-radius: 50%; font-size: 36px; font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.profile-card h2 { margin: 0; color: #2c3e50; font-size: 20px; }
+.role-badge { 
+    display: inline-block; background: #e0f2f1; color: #00695c; 
+    padding: 5px 15px; border-radius: 15px; font-size: 12px; font-weight: bold; margin: 10px 0 25px;
+}
+
+.info-group-readonly { text-align: left; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+.info-group-readonly label { display: block; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.info-group-readonly p { margin: 5px 0 0; font-weight: 600; color: #333; }
+
+/* RIGHT: FORMS */
+.profile-forms {
+    flex: 1; background: white; border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.form-section h3 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 20px; }
+.form-section h3 i { margin-right: 10px; color: #00897b; }
+
+.form-row { display: flex; gap: 20px; }
+.input-group { margin-bottom: 20px; flex: 1; }
+.input-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #555; }
+.input-group input {
+    width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;
+    box-sizing: border-box;
+}
+.input-group input:focus { border-color: #00897b; outline: none; }
+
+.form-actions { text-align: right; }
+.btn-save {
+    background: #00897b; color: white; border: none; padding: 10px 25px; border-radius: 5px;
+    font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-save:hover { background: #00695c; }
+
+.btn-warning {
+    background: #e67e22; color: white; border: none; padding: 10px 25px; border-radius: 5px;
+    font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-warning:hover { background: #d35400; }

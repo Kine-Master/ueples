@@ -1,0 +1,159 @@
+/* frontend/teacher/schedule/style.css */
+
+/* INHERIT GLOBAL STYLES */
+@import url('../../assets/css/style.css');
+
+/* 1. GLOBAL LAYOUT */
+body.workspace-body {
+    background-color: #f4f6f9;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* 2. HEADER (Teacher Theme: Teal) */
+.main-header {
+    height: 60px; 
+    background: #00897b; /* Teacher Teal */
+    color: white;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex-shrink: 0;
+    z-index: 100;
+}
+.brand { font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 10px; }
+.top-nav { display: flex; height: 100%; }
+.top-nav a {
+    color: #e0f2f1; text-decoration: none; padding: 0 20px;
+    height: 100%; display: flex; align-items: center; font-weight: 500;
+}
+.top-nav a:hover, .top-nav a.active { color: white; border-bottom: 3px solid #b2dfdb; background: rgba(255,255,255,0.1); }
+
+/* 3. MAIN CONTENT (Centered Single Column) */
+.main-content-centered {
+    flex: 1; overflow-y: auto; padding: 30px; 
+    display: flex; justify-content: center; align-items: flex-start;
+}
+
+.workspace-container {
+    width: 100%; max-width: 1200px;
+    background: transparent;
+    display: flex; flex-direction: column;
+}
+
+/* 4. WORKSPACE HEADER & ACTIONS */
+.ws-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.ws-header h2 { margin: 0 0 5px 0; color: #2c3e50; font-size: 24px; }
+
+.meta-badges .badge { padding: 5px 12px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+.sy-badge { background: #e0f2f1; color: #00695c; border: 1px solid #b2dfdb; }
+
+.ws-actions { display: flex; gap: 10px; }
+.btn-action { 
+    border: none; padding: 10px 20px; border-radius: 6px; 
+    cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; color: white; 
+    transition: 0.2s;
+}
+.btn-print { background: #7f8c8d; }
+.btn-print:hover { background: #606f70; }
+
+.btn-add-coed { background: #f1c40f; color: #7f6000; } /* Yellow for COED */
+.btn-add-coed:hover { background: #f39c12; }
+
+/* 5. TOOLBAR */
+.toolbar {
+    background: white; padding: 15px 20px; border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex; align-items: center; gap: 20px;
+    margin-bottom: 20px;
+}
+
+.view-toggle { display: flex; border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+.toggle-btn { padding: 8px 15px; border: none; background: #f9f9f9; cursor: pointer; border-right: 1px solid #ddd; }
+.toggle-btn.active { background: #00897b; color: white; }
+
+.control-group { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: #555; }
+.control-group select { padding: 6px 10px; border-radius: 4px; border: 1px solid #ccc; outline: none; }
+
+.legend-inline { margin-left: auto; display: flex; gap: 15px; font-size: 12px; color: #666; font-weight: 500; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.dot.les { background: #3498db; }
+.dot.coed { background: #f1c40f; }
+
+/* 6. TIMETABLE GRID */
+.timetable-grid {
+    display: grid;
+    grid-template-columns: 70px repeat(6, 1fr); /* Time + Mon-Sat */
+    background: white; border: 1px solid #ddd; border-radius: 6px;
+    min-height: 800px;
+    grid-template-rows: 40px repeat(26, 40px); /* Header + 13 hours * 2 slots */
+    position: relative;
+    overflow: auto;
+}
+
+.grid-header-cell {
+    background: #fafafa; font-weight: bold; text-align: center;
+    border-bottom: 2px solid #ddd; border-right: 1px solid #eee;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: #555;
+    position: sticky; top: 0; z-index: 20;
+}
+
+.grid-bg-line { grid-column: 1 / -1; border-bottom: 1px solid #f9f9f9; pointer-events: none; }
+.grid-bg-line.hour-marker { border-bottom: 1px solid #eee; }
+
+.time-label {
+    grid-column: 1; text-align: right; padding-right: 10px;
+    font-size: 11px; color: #999; transform: translateY(-50%); z-index: 2;
+}
+
+/* SCHEDULE BLOCKS */
+.schedule-block {
+    margin: 1px 4px; padding: 6px; border-radius: 4px; font-size: 11px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 5;
+    display: flex; flex-direction: column; justify-content: center;
+    line-height: 1.3; overflow: hidden;
+}
+
+/* LES (Blue - Read Only) */
+.block-les {
+    background-color: #3498db; color: white;
+    border-left: 4px solid #2980b9;
+    cursor: not-allowed; /* Shows locking */
+    opacity: 0.95;
+}
+
+/* COED (Yellow - Editable) */
+.block-coed {
+    background-color: #f1c40f; color: #7f6000;
+    border-left: 4px solid #f39c12;
+    cursor: pointer; /* Indicates interaction */
+}
+.block-coed:hover {
+    transform: scale(1.02);
+    transition: 0.1s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* 7. LIST VIEW TABLE */
+.data-table {
+    width: 100%; border-collapse: collapse;
+    background: white; border-radius: 6px; overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.data-table th {
+    background: #f8f9fa; padding: 15px; text-align: left;
+    font-size: 12px; color: #7f8c8d; text-transform: uppercase;
+    border-bottom: 2px solid #eee;
+}
+.data-table td { padding: 12px 15px; border-bottom: 1px solid #f1f1f1; font-size: 13px; color: #2c3e50; }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* TABLE BADGES */
+.badge-les { background: #d6eaf8; color: #2980b9; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; border: 1px solid #a9cce3; }
+.badge-coed { background: #fcf3cf; color: #d35400; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; border: 1px solid #f9e79f; }
+
+/* ACTION ICONS */
+.btn-icon-edit { border: 1px solid #f1c40f; background: white; color: #f39c12; padding: 5px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+.btn-icon-edit:hover { background: #f1c40f; color: white; }
+.icon-locked { color: #ccc; }

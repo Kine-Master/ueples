@@ -1,0 +1,356 @@
+/* frontend/secretary/archive/style.css */
+@import url('../../assets/css/style.css');
+/* =========================================
+   1. GLOBAL LAYOUT
+   ========================================= */
+body.workspace-body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+}
+/* =========================================
+   2. TOP NAVIGATION BAR (Secretary Orange Theme)
+   ========================================= */
+.main-header {
+    height: 60px;
+    background: #e67e22; /* Secretary Orange */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+.brand {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.top-nav {
+    display: flex;
+    height: 100%;
+}
+.top-nav a {
+    color: #fde3cf;
+    text-decoration: none;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+}
+.top-nav a:hover,
+.top-nav a.active {
+    color: white;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 3px solid #f39c12; /* Active Orange Line */
+}
+.btn-logout {
+    margin-left: 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    padding: 0 15px !important;
+}
+.btn-logout:hover {
+    background: rgba(255,255,255,0.2);
+}
+/* =========================================
+   3. MAIN CONTENT LAYOUT
+   ========================================= */
+.main-content-centered {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.archive-container {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+/* =========================================
+   4. PAGE HEADER SECTION
+   ========================================= */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+.header-text {
+    flex: 1;
+}
+.page-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: 700;
+}
+.page-header p {
+    margin: 4px 0 0 0;
+    color: #7f8c8d;
+    font-size: 13px;
+}
+.btn-settings {
+    background: #fff;
+    border: 1.5px solid #e67e22;
+    color: #e67e22;
+    padding: 6px 16px;
+    height: 36px;
+    min-width: 140px;
+    max-width: 240px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.btn-settings:hover {
+    background: #e67e22;
+    color: white;
+    box-shadow: 0 4px 8px rgba(230, 126, 34, 0.2);
+    transform: translateY(-1px);
+}
+/* =========================================
+   5. TOOLBAR (SEARCH & SORT)
+   ========================================= */
+.toolbar {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+.search-group {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0 12px;
+    transition: border-color 0.2s;
+}
+.search-group:focus-within {
+    border-color: #e67e22;
+}
+.search-group i {
+    color: #aaa;
+    margin-right: 10px;
+}
+.search-group input {
+    border: none;
+    outline: none;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+}
+.sort-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+.sort-group label {
+    white-space: nowrap;
+}
+.sort-group select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    font-size: 13px;
+    cursor: pointer;
+    background: white;
+    transition: border-color 0.2s;
+}
+.sort-group select:hover,
+.sort-group select:focus {
+    border-color: #e67e22;
+}
+/* =========================================
+   6. DATA TABLE STYLING
+   ========================================= */
+.table-wrapper {
+    border: 1px solid #e1e1e1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.archive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.archive-table th {
+    background: #ecf0f1;
+    padding: 15px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ddd;
+}
+.archive-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #333;
+    vertical-align: middle;
+}
+.archive-table tr:last-child td {
+    border-bottom: none;
+}
+.archive-table tr:hover {
+    background-color: #fff8e1;
+}
+.archive-table tbody tr td[colspan] {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+/* =========================================
+   7. BADGES & STATUS PILLS
+   ========================================= */
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.badge-les { background: #d6eaf8; color: #2980b9; }
+.badge-coed { background: #fcf3cf; color: #f39c12; }
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.status-pill.deleted { background: #fadbd8; color: #c0392b; }
+.status-pill.expired { background: #eaecee; color: #7f8c8d; }
+/* =========================================
+   8. MODAL (SETTINGS)
+   ========================================= */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    width: 450px;
+    max-width: 90%;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    animation: fadeIn 0.2s ease-out;
+}
+.modal-content h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 20px;
+}
+.modal-content p {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.modal-content form > div {
+    margin: 20px 0;
+}
+.modal-content label {
+    display: block;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #555;
+}
+.modal-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.modal-content select:focus {
+    border-color: #e67e22;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.modal-actions button {
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.modal-actions button[type="button"] {
+    background: white;
+    border: 1px solid #ddd;
+    color: #555;
+}
+.modal-actions button[type="submit"],
+.modal-actions .btn-primary {
+    background: #e67e22;
+    color: white;
+    border: none;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* =========================================
+   9. RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 768px) {
+    .main-content-centered { padding: 20px; }
+    .archive-container { padding: 20px; }
+    .page-header { flex-direction: column; gap: 15px; }
+    .toolbar { flex-direction: column; gap: 10px; }
+    .sort-group { width: 100%; }
+    .sort-group select { flex: 1; }
+    .top-nav a { padding: 0 10px; font-size: 14px; }
+}
