@@ -33,13 +33,19 @@ try {
     $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Room capacity info (get room from the first LES schedule for this section)
-    $rStmt = $pdo->prepare("SELECT r.capacity, COUNT(st2.student_id) AS enrolled
-                            FROM room r
-                            JOIN schedule sc ON sc.room_id = r.room_id
-                            LEFT JOIN student st2 ON st2.class_section_id = ? AND st2.is_active = 1
-                            WHERE sc.class_section_id = ? AND sc.is_active = 1 LIMIT 1");
-    $rStmt->execute([$class_section_id, $class_section_id]);
-    $capacity_info = $rStmt->fetch(PDO::FETCH_ASSOC);
+    $rStmt = $pdo->prepare("SELECT r.capacity
+                            FROM schedule sc
+                            JOIN room r ON sc.room_id = r.room_id
+                            WHERE sc.class_section_id = ? AND sc.is_active = 1
+                            LIMIT 1");
+    $rStmt->execute([$class_section_id]);
+    $roomRow = $rStmt->fetch(PDO::FETCH_ASSOC);
+
+    $eStmt = $pdo->prepare("SELECT COUNT(*) AS enrolled FROM student WHERE class_section_id = ? AND is_active = 1");
+    $eStmt->execute([$class_section_id]);
+    $enrolledRow = $eStmt->fetch(PDO::FETCH_ASSOC);
+
+    $capacity_info = $roomRow ? ['capacity' => $roomRow['capacity'], 'enrolled' => $enrolledRow['enrolled']] : null;
 
     echo json_encode(['status' => 'success', 'data' => $students, 'capacity_info' => $capacity_info]);
 } catch (Exception $e) {

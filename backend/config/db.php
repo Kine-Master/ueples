@@ -11,7 +11,7 @@ $host = getenv('UEP_DB_HOST') ?: 'localhost';
 $port = getenv('UEP_DB_PORT') ?: '3306';
 $db   = getenv('UEP_DB_NAME') ?: 'ueples_scheduling_system';
 $user = getenv('UEP_DB_USER') ?: 'root';
-$pass = getenv('UEP_DB_PASS');
+$pass = getenv('UEP_DB_PASS') ?: 'your_password';
 $tz   = getenv('UEP_TIMEZONE') ?: 'Asia/Manila';
 
 if ($pass === false) { $pass = ''; }

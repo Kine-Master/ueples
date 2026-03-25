@@ -12,3 +12,10 @@ inject_theme.py
 # Environment files
 .env
 .env.local
+
+#Beautiful Mermaid
+system_diagram.svg
+node_modules
+generate_diagram.mjs
+package-lock.json
+package.json

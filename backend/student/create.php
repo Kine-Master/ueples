@@ -31,13 +31,20 @@ try {
 
     // Room capacity soft warning check
     $rStmt = $pdo->prepare(
-        "SELECT r.capacity, COUNT(st.student_id) AS enrolled
-         FROM room r JOIN schedule sc ON sc.room_id = r.room_id
-         LEFT JOIN student st ON st.class_section_id = ? AND st.is_active = 1
-         WHERE sc.class_section_id = ? AND sc.is_active = 1 LIMIT 1"
+        "SELECT r.capacity
+         FROM schedule sc
+         JOIN room r ON sc.room_id = r.room_id
+         WHERE sc.class_section_id = ? AND sc.is_active = 1
+         LIMIT 1"
     );
-    $rStmt->execute([$class_section_id, $class_section_id]);
-    $cap = $rStmt->fetch(PDO::FETCH_ASSOC);
+    $rStmt->execute([$class_section_id]);
+    $roomRow = $rStmt->fetch(PDO::FETCH_ASSOC);
+
+    $eStmt = $pdo->prepare("SELECT COUNT(*) AS enrolled FROM student WHERE class_section_id = ? AND is_active = 1");
+    $eStmt->execute([$class_section_id]);
+    $enrolledRow = $eStmt->fetch(PDO::FETCH_ASSOC);
+
+    $cap = $roomRow ? ['capacity' => $roomRow['capacity'], 'enrolled' => $enrolledRow['enrolled']] : null;
     $at_capacity = ($cap && $cap['capacity'] && $cap['enrolled'] >= $cap['capacity']);
 
     $pdo->prepare(

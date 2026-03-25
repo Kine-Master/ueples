@@ -6,10 +6,12 @@ requireRoleApi(['admin', 'principal', 'secretary', 'teacher']);
 try {
     $sy_filter    = $_GET['school_year_id'] ?? '';
     $grade_filter = $_GET['grade_level_id'] ?? '';
-    $sql = "SELECT cs.*, gl.name AS grade_name, sy.label AS school_year_label
+    $sql = "SELECT cs.*, gl.name AS grade_name, sy.label AS sy_label,
+                   CONCAT(u.first_name, ' ', u.last_name) AS adviser_name
             FROM class_section cs
             JOIN grade_level gl ON cs.grade_level_id = gl.grade_level_id
             JOIN school_year sy ON cs.school_year_id = sy.school_year_id
+            LEFT JOIN user u ON cs.adviser_id = u.user_id
             WHERE 1=1";
     $params = [];
     if (!empty($sy_filter))    { $sql .= " AND cs.school_year_id = ?";   $params[] = (int)$sy_filter; }

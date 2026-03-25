@@ -6,7 +6,7 @@ async function loadDropdowns() {
         const json = await res.json();
         const sel = document.getElementById('fBldg');
         json.data.forEach(b => {
-            sel.innerHTML += `<option value="${b.building_id}">${b.building_name}</option>`;
+            sel.innerHTML += `<option value="${b.building_id}">${b.name}</option>`;
         });
     } catch (e) { console.error(e); }
 

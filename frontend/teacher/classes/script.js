@@ -168,7 +168,7 @@ async function saveStudent(e) {
     body.append('last_name', document.getElementById('fLast').value);
     body.append('extension_name', document.getElementById('fExt').value);
     body.append('gender', document.getElementById('fGender').value);
-    body.append('birth_date', document.getElementById('fDob').value);
+    body.append('date_of_birth', document.getElementById('fDob').value);
 
     try {
         const res = await fetch(url, { method: 'POST', body });
