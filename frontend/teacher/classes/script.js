@@ -18,24 +18,57 @@ function esc(s) { return String(s || '').replace(/"/g, '&quot;').replace(/'/g, '
 
 async function loadClasses() {
     try {
-        const res = await fetch('../../../backend/schedule/list.php'); // API filters safely
-        const json = await res.json();
-        if (json.status !== 'success') throw new Error();
+        // Fetch schedule-based classes and advisory sections independently
+        // Use allSettled so one failing doesn't break the other
+        const [schedResult, advResult] = await Promise.allSettled([
+            fetch('../../../backend/schedule/list.php').then(r => r.json()),
+            fetch('../../../backend/master_data/class_section/list_advisory.php').then(r => r.json())
+        ]);
 
-        // Extract unique LES class sections
+        const schedJson = schedResult.status === 'fulfilled' ? schedResult.value : null;
+        const advJson = advResult.status === 'fulfilled' ? advResult.value : null;
+
+        // Reset map on each load to avoid stale data
+        sectionsMap.clear();
+
+        // Extract unique LES class sections from schedules
         const classes = [];
-        json.data.forEach(s => {
-            if (s.schedule_type === 'LES' && s.class_section_id) {
-                if (!sectionsMap.has(s.class_section_id)) {
-                    sectionsMap.set(s.class_section_id, {
-                        id: s.class_section_id,
-                        name: s.section_name,
-                        grade: s.grade_name
-                    });
-                    classes.push(sectionsMap.get(s.class_section_id));
+        if (schedJson && schedJson.status === 'success') {
+            schedJson.data.forEach(s => {
+                if (s.schedule_type === 'LES' && s.class_section_id) {
+                    const csId = parseInt(s.class_section_id);
+                    if (!sectionsMap.has(csId)) {
+                        sectionsMap.set(csId, {
+                            id: csId,
+                            name: s.section_name,
+                            grade: s.grade_name,
+                            isAdvisory: false
+                        });
+                        classes.push(sectionsMap.get(csId));
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // Merge advisory sections (mark them, avoid duplicates)
+        if (advJson && advJson.status === 'success' && advJson.data) {
+            advJson.data.forEach(a => {
+                const csId = parseInt(a.class_section_id);
+                if (sectionsMap.has(csId)) {
+                    // Already in list from schedule — just mark as advisory
+                    sectionsMap.get(csId).isAdvisory = true;
+                } else {
+                    const entry = {
+                        id: csId,
+                        name: a.section_name,
+                        grade: a.grade_name,
+                        isAdvisory: true
+                    };
+                    sectionsMap.set(csId, entry);
+                    classes.push(entry);
+                }
+            });
+        }
 
         const list = document.getElementById('classList');
         if (!classes.length) {
@@ -47,6 +80,7 @@ async function loadClasses() {
       <div class="class-item" id="cls-${c.id}" onclick="selectClass(${c.id})">
         <strong style="display:block;color:var(--text);font-size:.95rem">${c.name}</strong>
         <span style="font-size:.8rem;color:var(--text-sub)">${c.grade}</span>
+        ${c.isAdvisory ? '<span style="font-size:.7rem;background:var(--accent-bg);color:var(--accent);padding:2px 8px;border-radius:99px;margin-top:4px;display:inline-block"><i class="fa-solid fa-star" style="font-size:.6rem"></i> Advisory</span>' : ''}
       </div>
     `).join('');
 

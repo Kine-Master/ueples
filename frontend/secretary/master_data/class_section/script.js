@@ -125,8 +125,8 @@ async function saveSec(e) {
     }
     body.append('section_name', document.getElementById('fName').value.trim());
 
-    const adv = document.getElementById('fAdv').value;
-    if (adv) body.append('adviser_id', adv);
+    // Always send adviser_id — empty string means "no adviser" (backend treats as NULL)
+    body.append('adviser_id', document.getElementById('fAdv').value);
 
     try {
         const res = await fetch(url, { method: 'POST', body });

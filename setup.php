@@ -152,11 +152,13 @@ try {
         `grade_level_id`   INT          NOT NULL,
         `school_year_id`   INT          NOT NULL,
         `section_name`     VARCHAR(100) NOT NULL,
+        `adviser_id`       INT          NULL,
         `is_active`        BOOLEAN      NOT NULL DEFAULT 1,
         `date_created`     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE KEY `uq_section` (`grade_level_id`, `school_year_id`, `section_name`),
-        CONSTRAINT `fk_cs_grade`  FOREIGN KEY (`grade_level_id`) REFERENCES `grade_level`(`grade_level_id`),
-        CONSTRAINT `fk_cs_sy`     FOREIGN KEY (`school_year_id`) REFERENCES `school_year`(`school_year_id`)
+        CONSTRAINT `fk_cs_grade`   FOREIGN KEY (`grade_level_id`) REFERENCES `grade_level`(`grade_level_id`),
+        CONSTRAINT `fk_cs_sy`      FOREIGN KEY (`school_year_id`) REFERENCES `school_year`(`school_year_id`),
+        CONSTRAINT `fk_cs_adviser` FOREIGN KEY (`adviser_id`)     REFERENCES `user`(`user_id`) ON DELETE SET NULL
     )";
 
     // --- TABLE 11: schedule ---

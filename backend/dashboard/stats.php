@@ -218,6 +218,12 @@ try {
         $stmt->execute([$user_id, $today]);
         $todaySchedule = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Advisory classes count
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM class_section WHERE adviser_id = ? AND is_active = 1" . ($syId ? " AND school_year_id = ?" : ""));
+        $advParams = $syId ? [$user_id, $syId] : [$user_id];
+        $stmt->execute($advParams);
+        $advisoryClasses = (int)$stmt->fetchColumn();
+
         $data = [
             'role'            => 'teacher',
             'active_sy'       => $activeSY,
@@ -226,6 +232,11 @@ try {
             'total_students'  => $totalStudents,
             'total_schedules' => $totalSchedules,
             'today_schedule'  => $todaySchedule,
+            'teacher_stats'   => [
+                'advisory_classes' => $advisoryClasses,
+                'total_students'   => $totalStudents,
+                'weekly_schedules' => $totalSchedules,
+            ],
         ];
     }
 

@@ -8,10 +8,14 @@ try {
     $class_section_id = (int)($_GET['class_section_id'] ?? 0);
     if (!$class_section_id) throw new Exception("class_section_id is required.");
 
-    // Teachers can only view students in sections they are assigned to
+    // Teachers can only view students in sections they are assigned to (schedule OR advisory)
     if ($_SESSION['role'] === 'teacher') {
-        $stmt = $pdo->prepare("SELECT 1 FROM schedule WHERE class_section_id = ? AND teacher_id = ? AND is_active = 1");
-        $stmt->execute([$class_section_id, $_SESSION['user_id']]);
+        $stmt = $pdo->prepare("
+            SELECT 1 FROM schedule WHERE class_section_id = ? AND teacher_id = ? AND is_active = 1
+            UNION
+            SELECT 1 FROM class_section WHERE class_section_id = ? AND adviser_id = ?
+        ");
+        $stmt->execute([$class_section_id, $_SESSION['user_id'], $class_section_id, $_SESSION['user_id']]);
         if (!$stmt->fetch()) throw new Exception("Unauthorized: you are not assigned to this class section.");
     }
 

@@ -12,8 +12,12 @@ try {
     $stu = $stmt->fetch();
     if (!$stu) throw new Exception("Student not found.");
     // Ownership check
-    $stmt = $pdo->prepare("SELECT 1 FROM schedule WHERE class_section_id = ? AND teacher_id = ? AND is_active = 1");
-    $stmt->execute([$stu['class_section_id'], $_SESSION['user_id']]);
+    $stmt = $pdo->prepare("
+        SELECT 1 FROM schedule WHERE class_section_id = ? AND teacher_id = ? AND is_active = 1
+        UNION
+        SELECT 1 FROM class_section WHERE class_section_id = ? AND adviser_id = ?
+    ");
+    $stmt->execute([$stu['class_section_id'], $_SESSION['user_id'], $stu['class_section_id'], $_SESSION['user_id']]);
     if (!$stmt->fetch()) throw new Exception("You are not assigned to this student's class section.");
     $new = $stu['is_active'] ? 0 : 1;
     $pdo->prepare("UPDATE student SET is_active = ? WHERE student_id = ?")->execute([$new, $student_id]);
