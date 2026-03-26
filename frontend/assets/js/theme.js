@@ -18,5 +18,27 @@ document.addEventListener('DOMContentLoaded', function () {
         document.documentElement.dataset.theme = next;
         localStorage.setItem('ueples_theme', next);
         btn.innerHTML = next === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+        
+        // Push theme update to any child iframes (cross-origin safe for same domain)
+        document.querySelectorAll('iframe').forEach(ifr => {
+            try {
+                if(ifr.contentWindow && ifr.contentWindow.document) {
+                    ifr.contentWindow.document.documentElement.dataset.theme = next;
+                }
+            } catch(e) {}
+        });
     });
+});
+
+// Sync theme changes from other tabs or from the parent window
+window.addEventListener('storage', function(e) {
+    if (e.key === 'ueples_theme') {
+        const newTheme = e.newValue || 'dark';
+        document.documentElement.dataset.theme = newTheme;
+        
+        const btn = document.getElementById('themeBtn');
+        if (btn) {
+            btn.innerHTML = newTheme === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+        }
+    }
 });
