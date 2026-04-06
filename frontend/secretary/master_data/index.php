@@ -2,7 +2,7 @@
 require_once '../../../backend/config/functions.php';
 requireRole('secretary');
 $module = $_GET['module'] ?? 'school_year';
-$allowed = ['school_year','curriculum','subject','class_section','building_room','teacher_subject'];
+$allowed = ['school_year','curriculum','subject','class_section','building_room'];
 if (!in_array($module, $allowed, true)) $module = 'school_year';
 ?>
 <!DOCTYPE html>
@@ -46,7 +46,6 @@ if (!in_array($module, $allowed, true)) $module = 'school_year';
       <a class="md-link <?= $module==='subject'?'active':'' ?>" href="?module=subject"><i class="fa-solid fa-book-open"></i> Subjects</a>
       <a class="md-link <?= $module==='class_section'?'active':'' ?>" href="?module=class_section"><i class="fa-solid fa-users-rectangle"></i> Sections</a>
       <a class="md-link <?= $module==='building_room'?'active':'' ?>" href="?module=building_room"><i class="fa-solid fa-building"></i> Buildings & Rooms</a>
-      <a class="md-link <?= $module==='teacher_subject'?'active':'' ?>" href="?module=teacher_subject"><i class="fa-solid fa-tags"></i> Specialties</a>
     </aside>
     <section class="md-pane">
       <iframe id="moduleFrame" src="<?= e('./' . $module . '/index.php?embed=1') ?>" title="Master Data Module"></iframe>

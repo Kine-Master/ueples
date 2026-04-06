@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once '../../../backend/config/functions.php';
 requireRole('secretary');
 ?><!DOCTYPE html>
@@ -31,7 +31,6 @@ requireRole('secretary');
     <a href="../master_data/subject/index.php"><i class="fa-solid fa-book-open"></i> <span>Subjects</span></a>
     <a href="../master_data/building_room/index.php"><i class="fa-solid fa-building"></i> <span>Buildings &amp; Rooms</span></a>
     <a href="../master_data/class_section/index.php"><i class="fa-solid fa-users-rectangle"></i> <span>Sections</span></a>
-    <a href="../master_data/teacher_subject/index.php"><i class="fa-solid fa-tags"></i> <span>Specialties</span></a>
     <a href="../profile/index.php"><i class="fa-solid fa-user-circle"></i> <span>Profile</span></a>
     <a href="../../../backend/auth/logout.php" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     <button class="theme-btn" id="themeBtn" title="Toggle theme"></button>
