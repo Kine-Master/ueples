@@ -509,10 +509,6 @@ requireRole('secretary');
                 <option value="">Select teacher…</option>
               </select>
             </div>
-            <label class="form-check" id="specialistToggleWrap">
-              <input type="checkbox" id="chkSpecialist" onchange="onSubjectChange()">
-              Specialists for selected subject only
-            </label>
           </div>
         </div>
 

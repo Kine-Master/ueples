@@ -39,7 +39,6 @@ function onTypeChange() {
 
     document.getElementById('acc-details').style.display = isLES ? '' : 'none';
     document.getElementById('acc-coed-fields').style.display = isLES ? 'none' : '';
-    document.getElementById('specialistToggleWrap').style.display = isLES ? '' : 'none';
     document.getElementById('grp-room-sel').style.display = isLES ? '' : 'none';
     document.getElementById('grp-room-txt').style.display = isLES ? 'none' : '';
 
@@ -136,7 +135,6 @@ async function loadDropdowns() {
 // ── Teachers loader ───────────────────────────────────────────────────────────
 async function loadTeachers() {
     const subj = document.getElementById('fSubj').value;
-    const specialist = document.getElementById('chkSpecialist').checked;
     const dayBox = document.querySelector('#dayCheckboxes input:checked');
     const day = dayBox ? dayBox.value : '';
     const start = document.getElementById('fStart').value;
@@ -145,7 +143,6 @@ async function loadTeachers() {
     const sem = document.getElementById('fSem').value;
 
     let url = `../../../backend/schedule/get_available_teachers.php?subject_id=${subj || 0}`;
-    if (specialist && subj) url += `&specialists_only=1`;
     if (sy) url += `&school_year_id=${sy}`;
     if (sem) url += `&semester=${sem}`;
     if (day) url += `&day_of_week=${day}`;
@@ -160,8 +157,7 @@ async function loadTeachers() {
 
         (json.data || []).forEach(t => {
             const conflict = t.is_available === false;
-            const star = t.is_specialist ? ' ★' : '';
-            const label = `${t.last_name}, ${t.first_name}${star}${conflict ? ' ⚠ Conflict' : ''}`;
+            const label = `${t.last_name}, ${t.first_name}${conflict ? ' ⚠ Conflict' : ''}`;
             sel.innerHTML += `<option value="${t.user_id}" ${conflict ? 'disabled' : ''}>${label}</option>`;
         });
 
