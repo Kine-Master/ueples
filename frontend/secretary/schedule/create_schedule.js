@@ -274,7 +274,7 @@ async function refreshTimetable() {
         const all = await resp.json();
         const schedules = all?.data || [];
 
-        // Separate by teacher and room
+        // Separate by teacher and room (mutually exclusive sets)
         const teacherSched = teacher ? schedules.filter(s => String(s.teacher_id) === String(teacher)) : [];
         const selectedRoomName = type === 'LES'
             ? ((document.getElementById('fRoom').selectedOptions[0]?.text || '').split(' (')[0] || '')
@@ -284,16 +284,19 @@ async function refreshTimetable() {
             const lesMatch = type === 'LES' && String(s.room_id || '') === String(room);
             const coedByName = roomNameNorm && String(s.coed_room || '').trim().toLowerCase() === roomNameNorm;
             const lesByName = roomNameNorm && String(s.room_name || '').trim().toLowerCase() === roomNameNorm;
-            return lesMatch || coedByName || lesByName;
+            const roomMatch = lesMatch || coedByName || lesByName;
+            // Exclude selected teacher's own schedules (already in teacherSched)
+            const differentTeacher = !teacher || String(s.teacher_id) !== String(teacher);
+            return roomMatch && differentTeacher;
         }) : [];
 
         renderGrid(teacherSched, roomSched, schedules);
 
         // Status message
         let msgs = [];
-        if (teacher && teacherSched.length) msgs.push(`${teacherSched.length} teacher slot(s)`);
-        if (room && roomSched.length) msgs.push(`${roomSched.length} room slot(s)`);
-        setStatus(msgs.length ? `Showing conflicts: ${msgs.join(', ')}.` : 'Timetable loaded. No conflicts found yet.');
+        if (teacher && teacherSched.length) msgs.push(`${teacherSched.length} slot(s) for selected teacher`);
+        if (room && roomSched.length) msgs.push(`${roomSched.length} slot(s) in room by other teachers`);
+        setStatus(msgs.length ? `Showing occupied: ${msgs.join(', ')}.` : 'Timetable loaded. No conflicts found yet.');
 
     } catch (e) {
         setStatus('Error loading timetable.');
@@ -364,9 +367,6 @@ function renderGrid(teacherSched, roomSched, _all) {
 
             if (iBP && (isBT || iBR || iCT || iCR)) {
                 const b = pBlocks.get(key);
-                cls = 'conflict'; label = 'CONFLICT! ' + b.label; span = b.span;
-            } else if (isBT && (iBR || iCR)) {
-                const b = tBlocks.get(key);
                 cls = 'conflict'; label = 'CONFLICT! ' + b.label; span = b.span;
             } else if (isBT) {
                 const b = tBlocks.get(key);
